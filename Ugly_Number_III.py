@@ -22,11 +22,40 @@ Example 4:
 Input: n = 1000000000, a = 2, b = 217983653, c = 336916467
 Output: 1999999984
 
+Hint:
+Write a function f(k) to determine how many ugly numbers smaller than k. As f(k) is non-decreasing, try binary search.
+
 """
 
 
 
 class Solution:
-    def nthUglyNumber(self, n, a, b, c):
+    # return how many ugly numbers are smaller than k
+    def count_ugly(self, start, end, a, b, c):
+        count = 0
+        while start <= end:
+            if start % a == 0 or start % b == 0 or start % c == 0:
+                count += 1
+            start += 1
+
+        return count
+    
+    def basecheck(self, n, end, a, b, c):
+        # return True if there could be an ugly number within the given range:
         pass
+    
+    def generate_seq(self, start, end, a, b, c):
+        K = a*b*c
+        L = []
+        for l in [a, b, c]:
+            L += range(start, K+1, l)
+        
+        return list(set(L))
+
+
+    def nthUglyNumber(self, n, a, b, c):
+        # generate the seq:
+        L = self.generate_seq(a, b, c)
+        
+        
         
