@@ -14,5 +14,31 @@ Note:
 n does not exceed 1690.
 """
 
+# INCOMPLETE
+
+from fractions import gcd
+from sys import maxint
+
+
 class Solution:
-    
+    def nthUglyNumber(self, n):
+        res = [1]
+        i = j = k = 0
+        count = 0
+        
+        while count < n:
+            val = min(res[i]*2,min(res[j]*3,res[k]*5))
+            if val == res[i]*2:
+                i+=1
+            if val == res[j]*3:
+                j+=1
+            if val == res[k]*5:
+                k+=1
+            count+=1
+            if count == n:
+                return res
+            res.append(val)
+
+S = Solution()
+x = S.nthUglyNumber(6)
+print(x)
