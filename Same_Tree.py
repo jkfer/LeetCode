@@ -7,19 +7,16 @@ class TreeNode:
         self.right = None
 
 # defining a sample TreeNode:
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-#root.left.left = TreeNode(4)
-#root.left.right = TreeNode(5)
+root1 = TreeNode(1)
+root1.left = TreeNode(2)
+root1.right = TreeNode(None)
+
 root2 = TreeNode(1)
-root2.left = TreeNode(2)
-root2.right = TreeNode(4)
+root2.left = TreeNode(None)
+root2.right = TreeNode(2)
 
 class Solution:
-    def isSameTree(self, p, q):
-        # we will do a bfs search for both trees 
-        def BFS(root, res=[]):
+    def BFS(self, root, res):
             L = []
             R = []
             for ROOT in root:
@@ -31,12 +28,20 @@ class Solution:
                     R.append(ROOT.right)
 
             if len(L + R) > 0:
-                BFS(L+R, res)
+                return self.BFS(L+R, res)
             else:
                 return res
 
-        return BFS(p) == BFS(q)
+    def isSameTree(self, p, q):
+        # we will do a bfs search for both trees 
+        return True if self.BFS([p], []) == self.BFS([q], []) else False
+
+
 
 S = Solution()
-ans = S.isSameTree([root], [root2])
-print(ans)
+x = S.isSameTree(root1, root2)
+print(x)
+
+#x1 = S.BFS([root1], [])
+#x2 = S.BFS([root2], [])
+#print(x1, x2)
