@@ -28,16 +28,22 @@ class Solution(object):
         :rtype: int
         """
         # Linear
-        # start from i = 0:
-        i = 0
-        c0 = 0
-        while i < len(cost):
-            # add initial step cost
-            if i == 0:
-                c0 += cost[i]
-            else:
-                if (i + 2) < len(cost):
-                    # inspect the next two items of the cost:
-                    # inspect cost[i+1] , cost[i+2]
-                    if min(cost[i+1:i+3]) == cost[i+2]:
-                        
+        # start from the min of the first two items:
+        if len(cost) <= 2:
+            return min(cost)
+        
+        i = len(cost) - 1
+        c = 0
+        
+        while i > 0:
+            if i > 2:
+                c += min(cost[i-1], cost[i-2])
+            i -= 1
+        
+        return c
+
+
+
+S = Solution()
+x = S.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])
+print(x)
