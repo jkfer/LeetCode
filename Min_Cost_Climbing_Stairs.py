@@ -19,6 +19,16 @@ Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3]
 Note:
 cost will have a length in the range [2, 1000].
 Every cost[i] will be an integer in the range [0, 999].
+
+IDEA:
+DP:
+cost[i] = cost[i] + min(cost[i-1], cost[i-2])
+
+the cost for a stair starting from index 2 will be the sum of the cost to reach there, and then leave from there
+cost to reach index i => min(cost[i-1], cost[i-2])
+cost to leave index i => cost[i]
+total cost of index i => cost[i] = cost[i] + min(cost[i-1], cost[i-2])
+
 """
 
 class Solution(object):
@@ -29,18 +39,10 @@ class Solution(object):
         """
         # Linear
         # start from the min of the first two items:
-        if len(cost) <= 2:
-            return min(cost)
+        for i in range(2, len(cost)):
+            cost[i] = cost[i] + min(cost[i-1], cost[i-2])
         
-        i = len(cost) - 1
-        c = 0
-        
-        while i > 0:
-            if i > 2:
-                c += min(cost[i-1], cost[i-2])
-            i -= 1
-        
-        return c
+        return min(cost[-1], cost[-2])
 
 
 
