@@ -19,6 +19,11 @@ Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3]
 Note:
 cost will have a length in the range [2, 1000].
 Every cost[i] will be an integer in the range [0, 999].
+
+
+IDEA:
+Note: you have to get to the position len(cost)
+cost[i] = cost[i] + min(cost[i-1], cost[i-2])
 """
 
 class Solution(object):
@@ -27,23 +32,14 @@ class Solution(object):
         :type cost: List[int]
         :rtype: int
         """
-        # Linear
-        # start from the min of the first two items:
-        if len(cost) <= 2:
-            return min(cost)
         
-        i = len(cost) - 1
-        c = 0
+        # DP:
+        # cost[i] = cost[i] + min(cost[i-1], cost[i-2])
+        # cost of getting to a stair is the min of the cost 
         
-        while i > 0:
-            if i > 2:
-                c += min(cost[i-1], cost[i-2])
-            i -= 1
-        
-        return c
 
 
 
 S = Solution()
-x = S.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])
+x = S.minCostClimbingStairs([0,2,2,1])
 print(x)
