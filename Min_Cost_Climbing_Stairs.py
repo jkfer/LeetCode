@@ -31,7 +31,7 @@ total cost of index i => cost[i] = cost[i] + min(cost[i-1], cost[i-2])
 
 """
 
-class Solution(object):
+class Solution:
     def minCostClimbingStairs(self, cost):
         """
         :type cost: List[int]
@@ -41,7 +41,7 @@ class Solution(object):
         # start from the min of the first two items:
         for i in range(2, len(cost)):
             cost[i] = cost[i] + min(cost[i-1], cost[i-2])
-        
+
         return min(cost[-1], cost[-2])
 
 
