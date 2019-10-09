@@ -20,10 +20,15 @@ Note:
 cost will have a length in the range [2, 1000].
 Every cost[i] will be an integer in the range [0, 999].
 
-
 IDEA:
-Note: you have to get to the position len(cost)
+DP:
 cost[i] = cost[i] + min(cost[i-1], cost[i-2])
+
+the cost for a stair starting from index 2 will be the sum of the cost to reach there, and then leave from there
+cost to reach index i => min(cost[i-1], cost[i-2])
+cost to leave index i => cost[i]
+total cost of index i => cost[i] = cost[i] + min(cost[i-1], cost[i-2])
+
 """
 
 class Solution(object):
@@ -32,11 +37,12 @@ class Solution(object):
         :type cost: List[int]
         :rtype: int
         """
+        # Linear
+        # start from the min of the first two items:
+        for i in range(2, len(cost)):
+            cost[i] = cost[i] + min(cost[i-1], cost[i-2])
         
-        # DP:
-        # cost[i] = cost[i] + min(cost[i-1], cost[i-2])
-        # cost of getting to a stair is the min of the cost 
-        
+        return min(cost[-1], cost[-2])
 
 
 
