@@ -1,5 +1,6 @@
 # 655
 # https://leetcode.com/problems/print-binary-tree/
+# Medium - tough
 
 """
 Works only for the examples provided. Needs work.
@@ -77,5 +78,46 @@ class Solution:
         print(matrix)
 
 
-S = Solution()
-S.printTree(root2)
+# This is a copied over solution. Not original
+class Solution2:
+    # find the height of the tree
+    def height(self, root):
+        if not root:
+            return 0
+        h = 1 + max(self.height(root.left), self.height(root.right))
+        return h
+
+    def printTree(self, root):
+        if not root:
+            return None
+
+        h = self.height(root)
+
+        row = h
+        col = 0
+        for i in range(h):
+            col += pow(2, i)
+
+        rlt = [[""] * col for _ in range(row)]
+
+        st = [(root, 0, col-1)]
+        new_st = []
+        lvl = 0
+        while st:
+            node, l, h = st.pop(0)
+            mid = int((l+h)/2)
+            rlt[lvl][mid] = str(node.val)
+            if node.left:
+                new_st.append((node.left, l, mid))
+            if node.right:
+                new_st.append((node.right, mid+1, h))
+            if not st:
+                lvl += 1
+                st = new_st
+                new_st = []
+
+        return rlt
+
+
+S = Solution2()
+print(S.printTree(root2))
