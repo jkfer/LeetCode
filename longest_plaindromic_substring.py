@@ -2,20 +2,21 @@
 
 # longest palindromic substring
 
-s = "bbb"
-#s = "babad"
-#s = ""
-#s = "aa"
-#s = "ac"
-#s = "a"
+s = "abbba"
+# s = "babad"
+# s = ""
+# s = "aa"
+# s = "ac"
+# s = "a"
+
 
 def longest(s):
-    i = 0 
+    i = 0
     re = ""
     word = ""
     while s[i:] != '':
         beg = s[i]
-        rem =s[i+1:]
+        rem = s[i+1:]
         word = s[i]
         while beg in rem:
             x = rem.index(beg)
@@ -28,6 +29,7 @@ def longest(s):
         re = s[0]
 
     return re
+
 
 ans = longest(s)
 print(ans)
