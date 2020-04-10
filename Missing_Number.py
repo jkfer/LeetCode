@@ -16,6 +16,15 @@ class Solution:
 
         return i
 
+    # alternate
+    def missingNumber(self, nums):
+        S = 0
+        s = 0
+        for i, n in enumerate(nums, start=1):
+            S += i
+            s += n
+        return S - s
+
 
 S = Solution()
 print(S.missingNumber([9, 6, 4, 2, 3, 5, 7, 0, 1]))

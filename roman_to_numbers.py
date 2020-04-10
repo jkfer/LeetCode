@@ -30,7 +30,7 @@ def romanToInt(s):
             s = s[:x] + s[x+2:]
             value += D1[i]
             #print(s)
-            
+
     """
     if len(s) > 0:
         for j in D2.keys():
@@ -46,6 +46,7 @@ def romanToInt(s):
 
 
     return value
+
 
 x = romanToInt(s)
 print(x)
