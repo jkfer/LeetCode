@@ -56,8 +56,38 @@ class Solution:
         odd_ref.next = even_ref.next
         return ref
 
+    # Alternate and faster approach
+    def oddEvenList2(self, head):
+        if not head or not head.next:
+            return head
+
+        EVEN_REF = ListNode(None)
+        ODD_REF = ListNode(None)
+        EVEN = EVEN_REF
+        ANS = head
+
+        while head and head.next:
+            curr = head
+            nex = head.next
+
+            save = nex.next
+            nex.next = None
+
+            EVEN_REF.next = nex
+            EVEN_REF = EVEN_REF.next
+
+            head.next = save
+            head = head.next
+
+        if head:
+            head.next = EVEN.next
+            return ANS
+        else:
+            curr.next = EVEN.next
+            return ANS
+
 
 # printL(root)
 S = Solution()
-x = S.oddEvenList(root)
+x = S.oddEvenList2(root)
 printL(x)
