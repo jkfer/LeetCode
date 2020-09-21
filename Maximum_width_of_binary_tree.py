@@ -1,5 +1,6 @@
 # 662
 # Medium
+from collections import deque
 
 
 # Definition for a binary tree node.
@@ -19,41 +20,52 @@ root.left.left.left = TreeNode(1)
 root.right.right.right = TreeNode(1)
 
 
+# Referred solution:
 class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        queue = deque([(root, 0)] if root else [])
+        max_width = 0
+        while queue:
+            width = queue[-1][1]-queue[0][1]+1
+            max_width = max(max_width, width)
+            for _ in range(len(queue)):
+                node, val = queue.popleft()
+                if node.left:
+                    queue.append((node.left, val*2+1))
+                if node.right:
+                    queue.append((node.right, val*2+2))
+        return max_width
+
     def widthOfBinaryTree(self, root):
-        # base:
-        if not root:
+        if root is None:
             return 0
 
-        # BFS search and at each width save the length:
-        queue = [root]
-        m = len(queue)
+        l1, l2 = [root], []
+        end = root
+        res = 1
+        while len(l1) > 0:
+            for node in l1:
+                l2.append(node.left if node else None)
+                l2.append(node.right if node else None)
 
-        while len(queue) > 0:
-            new_queue = []
-
-            for R in queue:
-                new_queue.append(R.left if R else None)
-                new_queue.append(R.right if R else None)
-
-            i = 0
-            j = len(new_queue)
-
-            for i in range(j):
-                if new_queue[i]:
+            ln = len(l2)
+            for i in range(len(l2)):
+                if l2[i]:
                     break
 
-            if new_queue[i] is None:
+            if i == ln:
                 break
 
-            for j in range(j-1, -1, -1):
-                if new_queue[j]:
+            for j in range(ln-1, -1, -1):
+                if l2[j]:
                     break
 
-            m = max(m, j-i+1)
-            queue = new_queue
+            res = max(res, j - i + 1)
 
-        return m
+            l1 = l2[i:j+1].copy()
+            l2 = []
+
+        return res
 
 
 S = Solution()
