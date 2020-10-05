@@ -1,44 +1,72 @@
-"""
-Write a program to find the n-th ugly number.
+# https://leetcode.com/problems/ugly-number-ii/
 
-Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. 
-
-Example:
-
-Input: n = 10
-Output: 12
-Explanation: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
-Note:  
-
-1 is typically treated as an ugly number.
-n does not exceed 1690.
-"""
-
-# INCOMPLETE
-
-from fractions import gcd
-from sys import maxint
+import math
+import collections
 
 
 class Solution:
+    def is_prime(self, n):
+        j = (n // 2) + 1
+        for k in range(2, j + 1):
+            if n % k == 0:
+                return False
+        return True
+
+    def good_divisors(self, n, primes):
+        if self.is_prime(n):
+            primes[n] = True
+            return False
+
+        c = (n // 2) + 1
+
+        for i in range(2, c + 1):
+            if n % i == 0 and self.is_prime(i):
+                if i not in [2, 3, 5]:
+                    return False
+        return True
+
+    # very slow - good for upto 100
     def nthUglyNumber(self, n):
+        ans = [1, 2, 3, 4, 5]
+        if n <= 5:
+            return ans[n-1]
+
+        i = 6
+        primes = collections.defaultdict(bool)
+        valid = collections.defaultdict(bool)
+        for i in ans:
+            valid[i] = True
+
+        while len(ans) <= n:
+            if i % 2 == 0:
+                j = int(i / 2)
+                if valid[j]:
+                    ans.append(i)
+                    valid[i] = True
+            elif self.good_divisors(i, primes):
+                ans.append(i)
+                valid[i] = True
+            i += 1
+
+        return ans[n-1]
+
+    # Referred solution:
+    def nthUglyNumber2(self, n):
         res = [1]
-        i = j = k = 0
-        count = 0
-        
-        while count < n:
-            val = min(res[i]*2,min(res[j]*3,res[k]*5))
-            if val == res[i]*2:
-                i+=1
-            if val == res[j]*3:
-                j+=1
-            if val == res[k]*5:
-                k+=1
-            count+=1
-            if count == n:
-                return res
-            res.append(val)
+        i2 = i3 = i5 = 0
+        while len(res) < n:
+            nxt = min([res[i2]*2, res[i3]*3, res[i5]*5])
+            res.append(nxt)
+            if nxt == res[i2]*2:
+                i2 += 1
+            if nxt == res[i3]*3:
+                i3 += 1
+            if nxt == res[i5]*5:
+                i5 += 1
+        return res[-1]
+
 
 S = Solution()
-x = S.nthUglyNumber(6)
-print(x)
+for i in range(1, 1690):
+    x = S.nthUglyNumber2(i)
+    print(i, "-->", x)
