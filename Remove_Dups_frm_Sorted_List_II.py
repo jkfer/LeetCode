@@ -60,6 +60,30 @@ class Solution:
                 head = head.next
         
         return dummy.next
+    
+    # Referred better solution:
+    def deleteDuplicates2(self, head):
+        if not head:
+            return head
+
+        dummy = ListNode(-101)
+        dummy.next = head
+
+        p1 = dummy
+        p2 = head
+        
+        while p2:
+            while p2.next and p2.val == p2.next.val:
+                p2 = p2.next
+            if p1.next == p2: # there were no duplicates
+                p1 = p1.next
+                p2 = p2.next
+            else: # there were dups:
+                p2 = p2.next
+                p1.next = p2
+        
+        return dummy.next
+
 
 
 
